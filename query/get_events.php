@@ -1,6 +1,8 @@
 <?php
+//Fetches list of shoots at an event
 include '../scripts/conn.php';
 
+	//POST in $event value & sanitise
     $event = $_POST["shootevent"];
 	$event = mysql_real_escape_String($event);
 

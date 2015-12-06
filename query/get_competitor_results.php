@@ -1,11 +1,11 @@
 <?php
 	// DB connection
-	include '../scripts/connection.php';
+	include '../scripts/conn.php';
 	
     $competitor = $_POST["competitor"];
 	$competitor = mysql_real_escape_String($competitor);
 
-	// Get Competitor Details
+	// Get Competitor Details using $competitor value
 	$compsql="SELECT surname, forename, nationality FROM competitor ORDER BY surname WHERE competitorID=$competitor";
 	$compresult=mysql_query($compsql);
 

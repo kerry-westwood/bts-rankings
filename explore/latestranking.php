@@ -1,10 +1,10 @@
 <?php
+//This page accepts no variables or inputs. It simply outputs the latets list of rankings & ratings.
+include '../scripts/conn.php';
 
-include '../scripts/connection.php';
-
-/* Get latest rankingindexprID*/
+/* Get latest (largest) rankingindexprID*/
 $ranksql = "SELECT MAX(rankindexprID) FROM rankindexpr";
-if (!mysql_query($ranksql,$con)) {
+if (!mysql_query($ranksql)) {
 			die('Error: ' . mysql_error());
 	} else {
 	$rankresult = mysql_query($ranksql);
@@ -20,7 +20,7 @@ if (!mysql_query($ranksql,$con)) {
 //print_r($row);
 //echo "Boom " . $rankid;
 
-	
+//Compile ranking list based on latest $rankID
 $rankingsql =	"SELECT competitor.forename, competitor.surname, competitor.competitorID, ratingpr.rating, rankingpr.rankingID
 				FROM competitor
 				INNER JOIN ratingpr ON competitor.competitorid = ratingpr.competitorID
@@ -33,6 +33,7 @@ $rankingsql =	"SELECT competitor.forename, competitor.surname, competitor.compet
 	} else {
 	$rankingresult = mysql_query($rankingsql);
 	}
+	//Echo out list of competitors from array
 	while ($row1 = mysql_fetch_array($rankingresult)) {
 		$competitor = $row1["forename"];
 		$competitors = $row1["surname"];
