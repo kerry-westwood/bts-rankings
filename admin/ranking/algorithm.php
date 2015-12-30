@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<!-- This page selects all competitors from a specific shoot and recalculates
+their live rating based on their performance in that shoot. It DOES NOT commit that rating
+to the ranking system or update the rankings in any way. -->
 <html>
 <head>
 
@@ -10,7 +13,6 @@
 <body>
 
 <?php
-
 include '../../scripts/connection.php';
 
 $shoot = mysql_real_escape_String($_POST["$shoot"]);

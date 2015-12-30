@@ -1,4 +1,6 @@
 <?php
+/* This page publishes a new ranking. It should be run after algorithm.php has been run
+to update competitor ratings for all relevant shoots*/
 
 include '../../scripts/connection.php';
 

@@ -1,5 +1,5 @@
 <?php
-//This page accepts no variables or inputs. It simply outputs the latets list of rankings & ratings.
+//This page accepts no variables or inputs. It simply outputs the latest list of rankings & ratings.
 include '../scripts/conn.php';
 
 /* Get latest (largest) rankingindexprID*/
@@ -20,7 +20,7 @@ if (!mysql_query($ranksql)) {
 //print_r($row);
 //echo "Boom " . $rankid;
 
-//Compile ranking list based on latest $rankID
+//Compile ranking list based on latest $rankID - Select competitor name & rating based on $rankid, order by rankingID.
 $rankingsql =	"SELECT competitor.forename, competitor.surname, competitor.competitorID, ratingpr.rating, rankingpr.rankingID
 				FROM competitor
 				INNER JOIN ratingpr ON competitor.competitorid = ratingpr.competitorID
