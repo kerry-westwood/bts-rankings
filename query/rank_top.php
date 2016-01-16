@@ -1,5 +1,5 @@
 <?php
-// Fetches top 3 ranked competitors in each discipline
+// Fetches top 3 ranked competitors in each discipline for Latest Ranking Page Tabs.
 
 include '../scripts/conn.php';
 
