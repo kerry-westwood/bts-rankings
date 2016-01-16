@@ -19,26 +19,25 @@ $pronesql = "SELECT *
 		WHERE ratingprID IN (SELECT MAX(ratingprID) FROM ratingpr GROUP BY competitorID)
 		ORDER BY rating DESC";
 
-	if (!mysql_query($pronesql,$con)) {
-		die('Error: ' . mysql_error());
-	}
-	else {
-		echo "Prone Ranking Produced";
-	}
+	$proneresult = mysql_query($pronesql,$con) or die('Error: ' . mysql_error());
+	
+	echo "<p>Prone Ranking Produced";
 
 /* INSERT each row into rankingpr table with rkindexprid*/
+$rank = 1;
 
 while ($row = mysql_fetch_array($proneresult)) {
 	$ratingid = $row['ratingprID'];
-	$ranksql = "INSERT INTO rankingpr (rankindexprID, ratingprID)
-	VALUES ('$rankid', '$ratingid')";
+	$ranksql = "INSERT INTO rankingpr (rankindexprID, ratingprID, rank)
+	VALUES ('$rankid', '$ratingid', '$rank')";
 
 	if (!mysql_query($ranksql,$con)) {
 			die('Error: ' . mysql_error());
 		}
 	else {
-		echo "<p>Success " . $ratingid;
+		echo "<p>Success " . $ratingid . " - " . $rank;
 	}
+	$rank = $rank + 1;
 	}
 
 ?>
