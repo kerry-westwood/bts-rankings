@@ -35,11 +35,11 @@ while ($row=mysql_fetch_array($apid)) {$apid=$row["apid"];}
 
 // Gets Ratings and Rankings corresponding to RatingIDs
 $ratesql=	"SELECT
-		IFNULL((SELECT rating,
+		IFNULL((SELECT rating
          FROM ratingpr
          WHERE ratingprid = $prid
          ),0) AS pronerate,
-    	IFNULL((SELECT rank,
+    	IFNULL((SELECT rank
          FROM rankingpr
          WHERE ratingprid = $prid
          ),0) AS pronerank, 
