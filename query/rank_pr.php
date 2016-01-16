@@ -1,5 +1,5 @@
 <?php
-// Fetches latest prone ranking
+// Fetches latest prone ranking for Latest Ranking Page.
 
 include '../scripts/conn.php';
 

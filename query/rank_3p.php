@@ -1,5 +1,5 @@
 <?php
-// Fetches latest 3p ranking
+// Fetches latest 3P ranking for Latest Ranking Page.
 
 include '../scripts/conn.php';
 

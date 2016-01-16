@@ -1,5 +1,5 @@
 <?php
-// Fetches latest Air Pistol ranking
+// Fetches latest Air Pistol ranking for Latest Ranking Page.
 
 include '../scripts/conn.php';
 
