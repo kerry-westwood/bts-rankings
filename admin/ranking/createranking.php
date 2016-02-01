@@ -6,10 +6,10 @@ include '../../scripts/connection.php';
 
 /* Make New Ranking Entry and Select the rankingid for that Entry*/
 $datesql = "INSERT INTO rankindexpr (date) VALUES (curdate())"; 
-	if (!mysql_query($datesql,$con)) {
-		die('Error: ' . mysql_error());
+	if (!mysqli_query($con, $datesql)) {
+		die('Error: ' . mysqli_error());
 	} else {
-	$rankid = mysql_insert_id();
+	$rankid = mysqli_insert_id($con);
 	echo "Prone Ranking ID Produced " . $rankid;
 	}
 
@@ -19,20 +19,20 @@ $pronesql = "SELECT *
 		WHERE ratingprID IN (SELECT MAX(ratingprID) FROM ratingpr GROUP BY competitorID)
 		ORDER BY rating DESC";
 
-	$proneresult = mysql_query($pronesql,$con) or die('Error: ' . mysql_error());
+	$proneresult = mysqli_query($con, $pronesql) or die('Error: ' . mysqli_error());
 	
 	echo "<p>Prone Ranking Produced";
 
 /* INSERT each row into rankingpr table with rkindexprid*/
 $rank = 1;
 
-while ($row = mysql_fetch_array($proneresult)) {
+while ($row = mysqli_fetch_array($proneresult)) {
 	$ratingid = $row['ratingprID'];
 	$ranksql = "INSERT INTO rankingpr (rankindexprID, ratingprID, rank)
 	VALUES ('$rankid', '$ratingid', '$rank')";
 
-	if (!mysql_query($ranksql,$con)) {
-			die('Error: ' . mysql_error());
+	if (!mysqli_query($con, $ranksql)) {
+			die('Error: ' . mysqli_error());
 		}
 	else {
 		echo "<p>Success " . $ratingid . " - " . $rank;

@@ -15,7 +15,7 @@ to the ranking system or update the rankings in any way. -->
 <?php
 include '../../scripts/connection.php';
 
-$shoot = mysql_real_escape_String($_POST["$shoot"]);
+$shoot = mysqli_real_escape_String($_POST["$shoot"]);
 
 /* Select competitors and positions */
 
@@ -25,20 +25,19 @@ $positionsql = "SELECT scorepr.scoreprID, scorepr.shootID, scorepr.competitorID,
         WHERE scorepr.competitorID = ratingpr.competitorID
         ORDER BY ratingpr.ratingprid DESC
         LIMIT 1
-       ),1500) AS rating
-FROM scorepr
-WHERE scorepr.shootID = $shoot
-ORDER BY scorepr.position;";
+       ),1500) AS rating FROM scorepr
+       WHERE scorepr.shootID = $shoot
+       ORDER BY scorepr.position;";
 
-$positionarray = mysql_query($positionsql,$con);
+$positionarray = mysqli_query($con, $positionsql);
 
 /* Count number of rows */
-$rows = mysql_num_rows($positionarray);
+$rows = mysqli_num_rows($positionarray);
 echo "<p>Competitors: " . $rows . "</p>";
 
 /* Sum ratings */
 $sum = 0;
-while ($row = mysql_fetch_assoc($positionarray)){
+while ($row = mysqli_fetch_assoc($positionarray)){
     $sum += $row['rating'];
 }
 
@@ -50,9 +49,9 @@ echo "<p>Sum of Ratings: " . $sum . "</p>";
 	Average remaining ratings]
 	*/
 
-$positionarray2 = mysql_query($positionsql,$con);
+$positionarray2 = mysqli_query($con, $positionsql);
 
-while ($competitor = mysql_fetch_assoc($positionarray2)){
+while ($competitor = mysqli_fetch_assoc($positionarray2)){
 	echo "<p>While loop running<p>";
 	$rating = $competitor['rating'];
 	$tempsum = $sum - $rating;
@@ -83,7 +82,7 @@ while ($competitor = mysql_fetch_assoc($positionarray2)){
 	$sql = "INSERT INTO ratingpr (scoreprID, competitorID, rating)
 	VALUES ('$scoreid', '$competitorid', '$actual')";
 	
-	if (!mysql_query($sql,$con)) {
+	if (!mysqli_query($con, $sql)) {
 		die('Error: ' . mysql_error());
 	} else {
 		echo "Yay it worked";
