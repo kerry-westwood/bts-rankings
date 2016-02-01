@@ -2,9 +2,10 @@
 // Collects latest ranking data for Competitor Profile Page 
 
 function getRating($competitorID, $discipline) {
+	global $con;
 	// Sanitises parameters
-	$competitorid = mysql_real_escape_String($competitorID);
-	$discipline = mysql_real_escape_String($discipline);
+	$competitorid = mysqli_real_escape_String($con, $competitorID);
+	$discipline = mysqli_real_escape_String($con, $discipline);
 
 	// Get ratingID for Competitor, and get Ranking/Rating if ratingID exists
 
@@ -13,18 +14,18 @@ function getRating($competitorID, $discipline) {
 		$pridsql = "SELECT MAX(ratingprID) AS prid
 					FROM ratingpr
 					WHERE competitorID = $competitorid";
-				
-		$prid = mysql_query($pridsql) or die(mysql_error());
-		while ($row=mysql_fetch_array($prid)) {
-			$prid=$row["prid"];
-		}	
+					
+		// Check if the competitor has a Prone Rating		
+		$row = mysqli_fetch_assoc(mysqli_query($con, $pridsql));	
+		$prid = $row["prid"]; 
 		
-		if($prid !== FALSE) {
+		// If rating exists, get latest rating & rank			
+		if($prid !== NULL) {
 			$ratesql =	"SELECT
 				IFNULL((SELECT rating FROM ratingpr WHERE ratingprid = $prid),0) AS pronerate, 
-				IFNULL((SELECT rank FROM rankingpr WHERE ratingprid = $prid),0) AS pronerank";
-			$prrate = mysql_query($ratesql) or die(mysql_error());
-			$prRate = mysql_fetch_array($prRate);
+				IFNULL((SELECT rank FROM rankingpr WHERE ratingprid = $prid ORDER BY rankindexprid DESC LIMIT 1),0) AS pronerank";
+
+			$prRate = mysqli_fetch_assoc(mysqli_query($con, $ratesql));
 			return $prRate;
 		}
 	}
@@ -35,16 +36,17 @@ function getRating($competitorID, $discipline) {
 					FROM ratingtp
 					WHERE competitorID = $competitorid";
 					
-		$tpid = mysql_query($tpidsql) or die(mysql_error());
-		while ($row=mysql_fetch_array($tpid)) {
-			$tpid=$row["tpid"];
-		}
-		if($tpid !== FALSE) {
+		// Check if the competitor has a 3P Rating					
+		$row=mysqli_fetch_assoc(mysqli_query($con, $tpidsql));
+		$tpid = $row["tpid"];
+		
+		// If rating exists, get latest rating & rank
+		if($tpid !== NULL) {
 			$ratesql = "SELECT 
 				IFNULL((SELECT rating FROM ratingtp WHERE ratingtpid = $tpid),0) AS tprate, 
-				IFNULL((SELECT rank FROM rankingtp WHERE ratingtpid = $tpid),0) AS tprank";
-			$tprate = mysql_query($ratesql) or die(mysql_error());
-			$tpRate = mysql_fetch_array($tprate);
+				IFNULL((SELECT rank FROM rankingtp WHERE ratingtpid = $tpid ORDER BY rankindextpid DESC LIMIT 1),0) AS tprank";
+
+			$tpRate = mysqli_fetch_assoc(mysqli_query($con, $ratesql));
 			return $tpRate;
 		}
 	}	
@@ -55,16 +57,17 @@ function getRating($competitorID, $discipline) {
 					FROM ratingar
 					WHERE competitorID = $competitorid";
 					
-		$arid = mysql_query($aridsql) or die(mysql_error());
-		while ($row=mysql_fetch_array($arid)) {
-			$arid=$row["arid"];
-		}
-		if($arid !== FALSE) {
+		// Check if the competitor has an Air Rifle Rating					
+		$row=mysqli_fetch_assoc(mysqli_query($con, $aridsql));
+		$arid=$row["arid"];
+		
+		// If rating exists, get latest rating & rank
+		if($arid !== NULL) {
 			$ratesql = "SELECT 
 				IFNULL((SELECT rating FROM ratingar WHERE ratingarid = $arid),0) AS arrate, 
-				IFNULL((SELECT rank FROM rankingar WHERE ratingarid = $arid),0) AS arrank";
-			$arrate = mysql_query($ratesql) or die(mysql_error());
-			$arRate = mysql_fetch_array($arrate);
+				IFNULL((SELECT rank FROM rankingar WHERE ratingarid = $arid ORDER BY rankingindexarid DESC LIMIT 1),0) AS arrank";
+
+			$arRate = mysqli_fetch_assoc(mysqli_query($con, $ratesql));
 			return $arRate;
 		}
 	}
@@ -75,24 +78,24 @@ function getRating($competitorID, $discipline) {
 					FROM ratingap
 					WHERE competitorID = $competitorid";
 					
-		$apid = mysql_query($apidsql) or die(mysql_error());
+		// Check if the competitor has an Air Pistol Rating					
+		$row=mysqli_fetch_array(mysqli_query($con, $apidsql));
+		$apid=$row["apid"];
 		
-		while ($row=mysql_fetch_array($apid)) {
-			$apid=$row["apid"];
-		}
-		if($arid !== FALSE) {
+		// If rating exists, get latest rating & rank
+		if($apid !== NULL) {
 			$ratesql = "SELECT 
 				IFNULL((SELECT rating FROM ratingap WHERE ratingapid = $apid),0) AS aprate, 
-				IFNULL((SELECT rank FROM rankingap WHERE ratingapid = $apid),0) AS aprank";
-			$aprate = mysql_query($ratesql) or die(mysql_error());
-			$apRate = mysql_fetch_array($aprate);
+				IFNULL((SELECT rank FROM rankingap WHERE ratingapid = $apid ORDER BY rankingindexapid DESC LIMIT 1),0) AS aprank";
+
+			$apRate = mysqli_fetch_assoc(mysqli_query($con, $ratesql));
 			return $apRate;
 		}
 	}	
 }
 /*	// Turn the array into some useful php variables
  
-while ($row=mysql_fetch_array($rate)) {
+while ($row=mysqli_fetch_array($rate)) {
 			
 			$pronerate=$row["pronerate"];
 			$3prate=$row["3prate"];

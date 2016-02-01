@@ -30,7 +30,22 @@ if($getID !== 0) {
 		$ratings = getRating($getID, "pr");
 		var_dump($ratings);
 	}
+
+	if($competitorBio !== FALSE) {
+		$ratings = getRating($getID, "tp");
+		var_dump($ratings);
+	}
+
+	if($competitorBio !== FALSE) {
+		$ratings = getRating($getID, "ar");
+		var_dump($ratings);
+	}
 	
+	if($competitorBio !== FALSE) {
+		$ratings = getRating($getID, "ap");
+		var_dump($ratings);
+	}
+
 	// Results
 	if($competitorBio !== FALSE) {	
 		$resultsPR = getPR($getID);

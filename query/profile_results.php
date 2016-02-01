@@ -2,7 +2,8 @@
 //Fetches competition results for a given Competitor
 
 function getPR($competitorID) {
-	$competitorid = mysql_real_escape_String($competitorID);
+	global $con;
+	$competitorid = mysqli_real_escape_String($con, $competitorID);
 
 	//Get Competitor Prone Results
 	$prsql="SELECT scorepr.*, shoot.*, event.*, meeting.*, (
@@ -17,13 +18,14 @@ function getPR($competitorID) {
 				WHERE scorepr.competitorID = $competitorid
 				ORDER BY scorepr.scoreprID DESC";
 
-	$prresults = mysql_query($prsql) or die(mysql_error());
-	$resultsPR = mysql_fetch_array($prresults);
+	$prresults = mysqli_query($con, $prsql) or die(mysqli_error($con));
+	$resultsPR = mysqli_fetch_assoc($prresults);
 	return $resultsPR;
 }
 	
 function getTP($competitorID) {
-	$competitorid = mysql_real_escape_String($competitorID);
+	global $con;
+	$competitorid = mysqli_real_escape_String($con, $competitorID);
 
 	//Get Competitor 3P Results
 	$tpsql="SELECT scoretp.*, shoot.*, event.*, meeting.*, (
@@ -38,13 +40,14 @@ function getTP($competitorID) {
 				WHERE scoretp.competitorID = $competitorid
 				ORDER BY scoretp.scoretpID DESC";
 
-	$tpresults = mysql_query($tpsql) or die(mysql_error());
-	$resultsTP= mysql_fetch_array($tpresults);
+	$tpresults = mysqli_query($con, $tpsql) or die(mysqli_error($con));
+	$resultsTP= mysqli_fetch_assoc($tpresults);
 	return $resultsTP;
 }
 
 function getAR($competitorID) {
-	$competitorid = mysql_real_escape_String($competitorID);
+	global $con;
+	$competitorid = mysqli_real_escape_String($con, $competitorID);
 
 	//Get Competitor Air Rifle Results
 	$arsql="SELECT scorear.*, shoot.*, event.*, meeting.*, (
@@ -59,13 +62,14 @@ function getAR($competitorID) {
 				WHERE scorear.competitorID = $competitorid
 				ORDER BY scorear.scorearID DESC";
 
-	$arresults = mysql_query($arsql) or die(mysql_error());
-	$resultsAR = mysql_fetch_array($arresults);
+	$arresults = mysqli_query($con, $arsql) or die(mysqli_error($con));
+	$resultsAR = mysqli_fetch_assoc($arresults);
 	return $resultsAR;
 }
 
 function getAP($competitorID) {
-	$competitorid = mysql_real_escape_String($competitorID);
+	global $con;
+	$competitorid = mysqli_real_escape_String($con, $competitorID);
 
 	//Get Competitor Air Pistol Results
 	$apsql="SELECT scoreap.*, shoot.*, event.*, meeting.*, (
@@ -80,14 +84,14 @@ function getAP($competitorID) {
 				WHERE scoreap.competitorID = $competitorid
 				ORDER BY scoreap.scoreapID DESC";
 
-	$apresults = mysql_query($apsql) or die(mysql_error());
-	$resultsAP = mysql_fetch_array($apresults);
+	$apresults = mysqli_query($con, $apsql) or die(mysqli_error($con));
+	$resultsAP = mysqli_fetch_assoc($apresults);
 	return $resultsAP;
 }	
 	
 /*	
 
-while ($row=mysql_fetch_array($prresults)) {
+while ($row=mysqli_fetch_array($prresults)) {
 	$meeting_name=$row["meeting.meetingname"];
 	$meeting_year=$row["meeting.year"];
 	$event_name=$row["event.eventname"];
