@@ -1,37 +1,35 @@
 <?php
-include '../scripts/conn.php';
-
 /* Select Competitor Details and checks which Disciplines they have results for. */
 
-$compsql=	"SELECT competitorID, surname, forename, nationality, gender,
-		IFNULL((SELECT scorepr.competitorID
-         FROM scorepr
-         WHERE competitor.competitorID = scorepr.competitorID
-         ORDER BY scorepr.scoreprID DESC
-         LIMIT 1
-       ),0) AS prone, 
-       IFNULL((SELECT score3p.competitorID
-         FROM score3p
-         WHERE competitor.competitorID = score3p.competitorID
-         ORDER BY score3p.score3pID DESC
-         LIMIT 1
-       ),0) AS 3p, 
-       IFNULL((SELECT scorear.competitorID
-         FROM scorear
-         WHERE competitor.competitorID = scorear.competitorID
-         ORDER BY scorear.scorearID DESC
-         LIMIT 1
-       ),0) AS ar, 
-       IFNULL((SELECT scoreap.competitorID
-         FROM scoreap
-         WHERE competitor.competitorID = scoreap.competitorID
-         ORDER BY scoreap.scoreapID DESC
-         LIMIT 1
-       ),0) AS ap
-FROM competitor
-ORDER BY surname";
+function competitorlisting() {
 
-$compresult=mysql_query($compsql);
+	$compsql = "SELECT competitorID, surname, forename, nationality, gender, 
+				IFNULL((SELECT scorepr.competitorID
+				FROM scorepr
+				WHERE competitor.competitorID = scorepr.competitorID
+				ORDER BY scorepr.scoreprID DESC
+				LIMIT 1),0) AS prone, 
+				IFNULL((SELECT score3p.competitorID
+				FROM score3p
+				WHERE competitor.competitorID = score3p.competitorID
+				ORDER BY score3p.score3pID DESC
+				LIMIT 1),0) AS 3p, 
+				IFNULL((SELECT scorear.competitorID
+				FROM scorear
+				WHERE competitor.competitorID = scorear.competitorID
+				ORDER BY scorear.scorearID DESC
+				LIMIT 1),0) AS ar, 
+				IFNULL((SELECT scoreap.competitorID
+				FROM scoreap
+				WHERE competitor.competitorID = scoreap.competitorID
+				ORDER BY scoreap.scoreapID DESC
+				LIMIT 1),0) AS ap
+				FROM competitor
+				ORDER BY surname";
+
+	$list = mysqli_fetch_assoc(mysqli_query($con, $compsql));
+	return $list;
+}
 
 /* Clears $compoptions */
 
@@ -39,7 +37,7 @@ $compresult=mysql_query($compsql);
 
 /* Outputs to php array, inserts values to $compoptions to populate drop-down in form */
 
-while ($row=mysql_fetch_array($compresult)) {
+/*while ($row=mysql_fetch_array($compresult)) {
 
     $compid=$row["compID"];
     $compsur=$row["surname"];
@@ -51,8 +49,7 @@ while ($row=mysql_fetch_array($compresult)) {
     $compar=$row["ar"];
     $compap=$row["ap"];
     $compname=$compsur.", ".$compfor." (".$compnat.")";
-    /* $compoptions.="<OPTION VALUE=\"$compid\">".$compname; */
-	}
+    $compoptions.="<OPTION VALUE=\"$compid\">".$compname; */
 ?>
 
 
