@@ -3,26 +3,26 @@
 
 require '../scripts/connection.php';
 include '../query/rank.php';
-echo "Start";
+
 // Get data
 $prrank = prrank();
-$tprank = tprank();
-$arrank = arrank();
-$aprank = aprank();
-	
 foreach ($prrank as $row){
 		printf ("%s (%s)\n", $row["rating"], $row["surname"]);
 		}
 
-while ($row = mysqli_fetch_assoc($tprank)){
-		printf ("%s (%s)\n", $row["rating"], $row["surname"]);
-		}
-		
-while ($row = mysqli_fetch_assoc($arrank)){
+$tprank = tprank();
+foreach ($tprank as $row){
 		printf ("%s (%s)\n", $row["rating"], $row["surname"]);
 		}
 
-while ($row = mysqli_fetch_assoc($aprank)){
+$arrank = arrank();		
+foreach ($arrank as $row){
 		printf ("%s (%s)\n", $row["rating"], $row["surname"]);
 		}
+
+$aprank = aprank();
+foreach ($aprank as $row){
+		printf ("%s (%s)\n", $row["rating"], $row["surname"]);
+		}
+		
 ?>
