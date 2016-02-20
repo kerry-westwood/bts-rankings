@@ -1,14 +1,13 @@
 <?php
+// REPLACED BY ADDING LIMIT PARAMETER TO RANK.PHP FUNCTIONS.
 // Fetches top 3 ranked competitors in each discipline for Latest Ranking Page Tabs.
-
-include '../scripts/conn.php';
 
 // Select top three competitors from each discipline.
 
 // Prone
 
 $rankindexsql = "SELECT MAX(rankindexprID) FROM rankindexpr";
-$prindex=mysql_query($rankindexsql);
+$prindex=mysqli_query($con, $rankindexsql);
 
 $pronesql = "SELECT rating, forename, surname, gender, nationality
 FROM ratingpr
@@ -20,12 +19,12 @@ WHERE rankingpr.rankindexprID = '$prindex'
 ORDER BY rating DESC
 LIMIT 3;"
 
-$toppr = mysql_query($pronesql);
+$toppr = mysqli_query($con, $pronesql);
 
 // 3P
 
 $rankindexsql = "SELECT MAX(rankindex3pID) FROM rankindex3p";
-$3pindex=mysql_query($rankindexsql);
+$3pindex=mysqli_query($con, $rankindexsql);
 
 $3psql = "SELECT rating, forename, surname, gender, nationality
 FROM rating3p
@@ -37,7 +36,7 @@ WHERE ranking3p.rankindex3pID = '$3pindex'
 ORDER BY rating DESC
 LIMIT 3;"
 
-$top3p = mysql_query($3psql);
+$top3p = mysqli_query($con, $3psql);
 
 // Air Rifle
 
@@ -54,12 +53,12 @@ WHERE rankingar.rankindexarID = '$arindex'
 ORDER BY rating DESC
 LIMIT 3;"
 
-$topar = mysql_query($arsql);
+$topar = mysqli_query($con, $arsql);
 
 // Air Pistol
 
 $rankindexsql = "SELECT MAX(rankindexapID) FROM rankindexap";
-$apindex=mysql_query($rankindexsql);
+$apindex=mysqli_query($con, $rankindexsql);
 
 $apsql = "SELECT rating, forename, surname, gender, nationality
 FROM ratingap
@@ -71,6 +70,6 @@ WHERE rankingap.rankindexapID = '$apindex'
 ORDER BY rating DESC
 LIMIT 3;"
 
-$topap = mysql_query($apsql);
+$topap = mysqli_query($con, $apsql);
 
 ?>
