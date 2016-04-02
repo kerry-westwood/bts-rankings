@@ -1,33 +1,35 @@
 <?php
 	// DB connection
-	include '../../scripts/connection.php';
+	require '../../scripts/connection.php';
 	
 	// Get options for form
 	
-	// Get event id from url
-	$eventidurl = 0;
+	// Get event id from POST
+	$eventid = 0;
 	if(isset($_GET['eventid'])){
-		$eventidurl = $_GET['eventid'];
+		$eventid = $_POST['eventid'];
 	}
-	$sql2 = "SELECT eventID, eventname FROM event WHERE eventID = $eventidurl";
-	if (!mysql_query($sql2,$con)) {
-		die('Error: ' . mysql_error());
+	$eventid = mysqli_real_escape_string($con, $eventid);
+	
+	$sql2 = "SELECT eventID, eventname FROM event WHERE eventID = $eventid";
+	if (!mysqli_query($con, $sql2)) {
+		die('Error: ' . mysqli_error($con));
 	} else {
-		$result2 = mysql_query($sql2);
+		$result2 = mysqli_query($con, $sql2);
 	}
-	while ($row2 = mysql_fetch_array($result2)) {
+	while ($row2 = mysqli_fetch_assoc($result2)) {
 		$eventid2 = $row2["eventID"];
 		$ename2 = $row2["eventname"];
 	}
 	
 	// Get Meeting of selected event 
 	$sql3 = "SELECT meeting.meetingID, meeting.meetingname, meeting.year, event.eventID FROM meeting INNER JOIN event ON meeting.meetingID = event.meetingID WHERE event.eventID = $eventid2";
-	if (!mysql_query($sql3,$con)) {
-		die('Error: ' . mysql_error());
+	if (!mysqli_query($con, $sql3)) {
+		die('Error: ' . mysqli_error($con));
 	} else {
-		$result3 = mysql_query($sql3);
+		$result3 = mysqli_query($con, $sql3);
 	}
-	while ($row3 = mysql_fetch_array($result3)) {
+	while ($row3 = mysqli_fetch_array($result3)) {
 		$mname2 = $row3["meetingname"];
 		$meetingid2 = $row3["meetingID"];
 		$myear = $row3["year"];
@@ -35,14 +37,14 @@
 	
 	// Meetings
 	$sql4 = "SELECT meetingID, meetingname FROM meeting";
-	if (!mysql_query($sql4,$con)) {
-		die('Error: ' . mysql_error());
+	if (!mysqli_query($con, $sql4)) {
+		die('Error: ' . mysqli_error($con));
 	} else {
-		$result4 = mysql_query($sql4);
+		$result4 = mysqli_query($con, $sql4);
 	}
 
 	$options4 = "";
-	while ($row4 = mysql_fetch_array($result4)) {
+	while ($row4 = mysqli_fetch_assoc($result4)) {
 		$meetingid = $row4["meetingID"];
 		$mname = $row4["meetingname"];
 		$options4 .= "<OPTION VALUE=\"$meetingid\">".$mname."</option>";
@@ -50,14 +52,14 @@
 	
 	// events
 	$sql = "SELECT eventID, eventname FROM event, meeting WHERE event.meetingID = meeting.meetingID";
-	if (!mysql_query($sql,$con)) {
-		die('Error: ' . mysql_error());
+	if (!mysqli_query($con, $sql)) {
+		die('Error: ' . mysqli_error($con));
 	} else {
-		$result = mysql_query($sql);
+		$result = mysqli_query($con, $sql);
 	}
 
 	$options = "";
-	while ($row = mysql_fetch_array($result)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$eventid = $row["eventID"];
 		$ename = $row["eventname"];
 		$options .= "<OPTION VALUE=\"$eventid\">".$ename."</option>";
@@ -73,14 +75,14 @@
 	// Check whether form has been submitted
 	if(isset($_POST['submit'])) {
 		// Declare variables
-		$shootmeet = mysql_real_escape_String($_POST["shootmeet"]);
-		$shootevent = mysql_real_escape_String($_POST["shootevent"]);
-		$shoottype = mysql_real_escape_String($_POST["shoottype"]);
-		$shootdated = mysql_real_escape_String($_POST["dated"]);
-		$shootdatem = mysql_real_escape_String($_POST["datem"]);
-		$shootdatey = mysql_real_escape_String($_POST["datey"]);
+		$shootmeet = mysqli_real_escape_String($con, $_POST["shootmeet"]);
+		$shootevent = mysqli_real_escape_String($con, $_POST["shootevent"]);
+		$shoottype = mysqli_real_escape_String($con, $_POST["shoottype"]);
+		$shootdated = mysqli_real_escape_String($con, $_POST["dated"]);
+		$shootdatem = mysqli_real_escape_String($con, $_POST["datem"]);
+		$shootdatey = mysqli_real_escape_String($con, $_POST["datey"]);
 		if(isset($_POST["decimal"])) {
-			$decimal = mysql_real_escape_String($_POST["decimal"]);
+			$decimal = mysqli_real_escape_String($con, $_POST["decimal"]);
 		} else {
 			$decimal = "";
 		}
@@ -117,15 +119,15 @@
 			// Insert into DB
 			$sql = "INSERT INTO shoot (eventID, type, date, decscore) VALUES ('$shootevent','$shoottype','$shootdate','$decimal')";
 
-			if (!mysql_query($sql,$con)) {
-				die('Error: ' . mysql_error());
+			if (!mysqli_query($con, $sql)) {
+				die('Error: ' . mysqli_error($con));
 			} else {
-				$shootid = mysql_insert_id();
+				$shootid = mysqli_insert_id($con);
 				$success = "The shoot was added successfully!";
 			}
 			
 			// Close connection
-			mysql_close($con);
+			mysqli_close($con);
 		}
 	}
 ?>

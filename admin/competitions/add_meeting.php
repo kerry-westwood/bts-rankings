@@ -4,11 +4,11 @@
 	
 	// Check whether form has been submitted
 	if(isset($_POST['submit'])) {
-		include '../../scripts/connection.php';
+		require '../../scripts/connection.php';
 		
 		// Declare variables
-		$meetingname = mysql_real_escape_String($_POST["meetingname"]);
-		$meetingyear = mysql_real_escape_String($_POST["meetingyear"]);
+		$meetingname = mysqli_real_escape_String($con, $_POST["meetingname"]);
+		$meetingyear = mysqli_real_escape_String($con, $_POST["meetingyear"]);
 		
 		// Validation 
 		$flag = 0;
@@ -24,15 +24,15 @@
 			// Insert into DB
 			$sql = "INSERT INTO meeting (meetingname, year) VALUES ('$meetingname','$meetingyear')";
 			
-			if (!mysql_query($sql,$con)) {
-				die('Error: ' . mysql_error());
+			if (!mysqli_query($con, $sql)) {
+				die('Error: ' . mysqli_error($con));
 			} else {
-				$meetingid = mysql_insert_id();
+				$meetingid = mysqli_insert_id($con);
 				$success = "\"".$meetingname."\" was added successfully!";
 			}
 			
 			// Close connection
-			mysql_close($con);
+			mysqli_close($con);
 		}
 	}
 

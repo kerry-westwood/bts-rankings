@@ -1,6 +1,6 @@
 <?php
 	// DB connection
-	include '../../scripts/connection.php';
+	require '../../scripts/connection.php';
 	
 	// Get options for form
 	// Get meeting id from url
@@ -9,26 +9,26 @@
 		$meetingidurl = $_GET['meetingid'];
 	}
 	$sql1 = "SELECT meetingID, meetingname FROM meeting WHERE meetingID = $meetingidurl";
-	if (!mysql_query($sql1,$con)) {
-		die('Error: ' . mysql_error());
+	if (!mysqli_query($con, $sql1)) {
+		die('Error: ' . mysqli_error($con));
 	} else {
-		$result1 = mysql_query($sql1);
+		$result1 = mysqli_query($con, $sql1);
 	}
-	while ($row1 = mysql_fetch_array($result1)) {
+	while ($row1 = mysqli_fetch_assoc($result1)) {
 		$meetingid1 = $row1["meetingID"];
 		$mname1 = $row1["meetingname"];
 	}
 	
 	// Meetings
 	$sql = "SELECT meetingID, meetingname FROM meeting";
-	if (!mysql_query($sql,$con)) {
-		die('Error: ' . mysql_error());
+	if (!mysqli_query($con, $sql)) {
+		die('Error: ' . mysqli_error($con));
 	} else {
-		$result = mysql_query($sql);
+		$result = mysqli_query($con, $sql);
 	}
 
 	$options = "";
-	while ($row = mysql_fetch_array($result)) {
+	while ($row = mysqli_fetch_assoc($result)) {
 		$meetingid = $row["meetingID"];
 		$mname = $row["meetingname"];
 		$options .= "<OPTION VALUE=\"$meetingid\">".$mname."</option>";
@@ -36,14 +36,14 @@
 	
 	// Disciplines
 	$dsql = "SELECT disciplineID, name FROM discipline";
-	if (!mysql_query($sql,$con)) {
-		die('Error: ' . mysql_error());
+	if (!mysqli_query($con, $sql)) {
+		die('Error: ' . mysqli_error($con));
 	} else {
-		$dresult = mysql_query($dsql);
+		$dresult = mysqli_query($con, $dsql);
 	}
 	
 	$doptions="";
-	while ($row = mysql_fetch_array($dresult)) {
+	while ($row = mysqli_fetch_assoc($dresult)) {
 		$disciplineid = $row["disciplineID"];
 		$disciplinename = $row["name"];
 		$doptions .= "<OPTION VALUE=\"$disciplineid\">".$disciplinename."</option>";
@@ -58,11 +58,11 @@
 	// Check whether form has been submitted
 	if(isset($_POST['submit'])) {
 		// Declare variables
-		$eventmeeting = mysql_real_escape_String($_POST["eventmeeting"]);
-		$eventname = mysql_real_escape_String($_POST["eventname"]);
-		$eventdiscipline = mysql_real_escape_String($_POST["eventdiscipline"]);
-		$gender = mysql_real_escape_String($_POST["gender"]);
-		$entrants = mysql_real_escape_String($_POST["entrants"]);
+		$eventmeeting = mysqli_real_escape_String($con, $_POST["eventmeeting"]);
+		$eventname = mysqli_real_escape_String($con, $_POST["eventname"]);
+		$eventdiscipline = mysqli_real_escape_String($con, $_POST["eventdiscipline"]);
+		$gender = mysqli_real_escape_String($con, $_POST["gender"]);
+		$entrants = mysqli_real_escape_String($con, $_POST["entrants"]);
 		
 		// Validation 
 		$flag = 0;
@@ -98,15 +98,15 @@
 			$sql = "INSERT INTO event (meetingID, eventname, disciplineID, entrants, gender) ".
 					"VALUES ('$eventmeeting', '$eventname', '$eventdiscipline', $entrants, $gender)";
 			
-			if (!mysql_query($sql,$con)) {
-				die('Error: ' . mysql_error());
+			if (!mysqli_query($con, $sql)) {
+				die('Error: ' . mysqli_error($con));
 			} else {
-				$eventid = mysql_insert_id();
+				$eventid = mysqli_insert_id($con);
 				$success = "\"".$eventname."\" was added successfully!";
 			}
 			
 			// Close connection
-			mysql_close($con);
+			mysqli_close($con);
 		}	
 	}
 ?>
