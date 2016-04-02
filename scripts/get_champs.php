@@ -1,4 +1,5 @@
 <?php
+	//DB connection
 	include 'conn.php';
     $year = $_POST["year"];
 	$sel_champ = $_POST["sel_champ"];
