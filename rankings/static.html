@@ -1,0 +1,122 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>British Target Shooting Rankings</title>
+        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400' rel='stylesheet' type='text/css'>
+        <link href="../dist/foundation.min.css" type="text/css" rel="stylesheet" media="all" />
+        <link href="../css/style.css" type="text/css" rel="stylesheet" media="all" />
+    </head>
+    <body>
+        <div class="off-canvas-wrapper">
+            <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+                <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+                    <ul class="vertical menu" data-drilldown>
+                        <li>
+                            <a href="#">Rankings</a>
+                            <ul class="vertical menu">
+                                <li><a href="#">Prone</a></li>
+                                <li><a href="#">3 Position</a></li>
+                                <li><a href="#">Air Rifle</a></li>
+                                <li><a href="#">Air Pistol</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Competitions</a></li>
+                        <li><a href="#">Competitors</a></li>
+                    </ul>
+                </div>
+                <div class="off-canvas-content" data-off-canvas-content>
+                    <div class="grid-frame vertical">
+                    <div class="title-bar">
+                        <div class="title-bar-left">
+                            <button class="menu-icon" type="button" data-open="offCanvasLeft"></button>
+                            <span class="title-bar-title">Foundation</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid-block main-body">
+                        <div class="left-sidebar hide-for-small-only">
+                            <ul class="vertical dropdown menu icon_nav" data-dropdown-menu data-options="clickOpen: true; disableHover:true; closeOnClick: false;">
+                                <li class="icon_rank">
+                                    <a href="javascript:void(0);" class="show_sub">
+                                        <img src="../images/icons/ranking.png" width="50" height="50"/>
+                                        <span>Rankings</span>
+                                    </a>
+                                    <ul class="vertical menu">
+                                        <li><a href="#">Prone</a></li>
+                                        <li><a href="#">3 Position</a></li>
+                                        <li><a href="#">Air Rifle</a></li>
+                                        <li><a href="#">Air Pistol</a></li>
+                                    </ul>
+                                </li>
+                                <li class="icon_meet">
+                                    <a href="#">
+                                        <img src="../images/icons/competitions.png" width="50" height="50"/>
+                                        <span>Competitions</span>
+                                    </a>
+                                </li>
+                                <li class="icon_comp">
+                                    <a href="#">
+                                        <img src="../images/icons/competitors.png" width="50" height="50"/>
+                                        <span>Competitors</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="grid-block">
+                            <div class="row">
+                                <div class="leaderboard">
+                                    <div class="board_header">
+                                        <h1>Prone</h1>
+                                    </div>
+                                    <div class="board_entry">
+                                        <div class="rank">1</div>
+                                        <span class="name">Richard Hemingway [flag]</span>
+                                        <span class="right points">points</span>
+                                    </div>
+                                    <div class="board_entry">
+                                        <div class="rank">2</div>
+                                        <span class="name">Richard Hemingway [flag]</span>
+                                        <span class="right points">points</span>
+                                    </div>
+                                    <div class="board_entry">
+                                        <div class="rank">3</div>
+                                        <span class="name">Richard Hemingway [flag]</span>
+                                        <span class="right points">points</span>
+                                    </div>
+                                    <div class="board_entry">
+                                        <div class="rank">4</div>
+                                        <span class="name">Richard Hemingway [flag]</span>
+                                        <span class="right points">points</span>
+                                    </div>
+                                    <div class="board_entry">
+                                        <div class="rank">5</div>
+                                        <span class="name">Richard Hemingway [flag]</span>
+                                        <span class="right points">points</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+        <script src="../dist/foundation.min.js" type="text/javascript"></script>
+        <script>
+            $(document).foundation();
+            
+            $(document).ready(function() {
+                $("a.show_sub").click(function(){
+                    $(".left-sidebar").toggleClass("show_sub");
+                });
+            });
+        </script>
+
+    </body>
+</html>
