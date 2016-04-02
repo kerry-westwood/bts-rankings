@@ -3,18 +3,18 @@
 	$eventid = $_POST["eventID"];
 	// Get shoots of selected event 
 	$sql = "SELECT shootID, type FROM shoot WHERE eventID = $eventid";
-	if (!mysql_query($sql,$con)) {
-		die('Error: ' . mysql_error());
+	if (!mysqli_query($con, $sql)) {
+		die('Error: ' . mysqli_error($con));
 	} else {
-		$result = mysql_query($sql);
+		$result = mysqli_query($con, $sql);
 	}
-	$numrows = mysql_num_rows($result);
+	$numrows = mysqli_num_rows($result);
 	
 	if ($numrows == 0) {
 		echo "<option value=\"0\">No shoots found</option>";
 	} else {
 		echo "<option value=\"0\">Choose</option>";
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$shootid = $row["shootID"];
 			$shoottype = $row["type"];
 			$shoottypename = "";

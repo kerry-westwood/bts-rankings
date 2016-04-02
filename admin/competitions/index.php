@@ -1,25 +1,19 @@
 <?php
 	// DB connection
-	include '../../scripts/connection.php';
+	require '../../scripts/connection.php';
 	// Meetings
-	$sql = "SELECT meetingID, meetingname FROM meeting";
-	if (!mysql_query($sql,$con)) {
-		die('Error: ' . mysql_error());
+	$meetsql = "SELECT meetingID, meetingname FROM meeting ORDER BY meetingID DESC";
+	if (!mysqli_query($con, $meetsql)) {
+		die('Error: ' . mysqli_error($con));
 	} else {
-		$result = mysql_query($sql);
+		$meetresult = mysqli_query($con, $meetsql);
 	}
 
-	$options = "";
-	while ($row = mysql_fetch_array($result)) {
-		$meetingid = $row["meetingID"];
-		$mname = $row["meetingname"];
-		$options .= "<OPTION VALUE=\"$meetingid\">".$mname."</option>";
-	}
 ?>
 <!doctype html>
 <!--[if lte IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
 <!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
-<html class="no-js" lang="en">
+<html class="no-js" lang="en-GB">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,7 +21,7 @@
     <link rel="stylesheet" href="../../style/normalize.css" />
     <link rel="stylesheet" href="../../style/foundation.css" />
     
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="../../style/app.css" />
     <!--[if lte IE 8]>
 		<link rel="stylesheet" href="../../style/ie8-grid.css" />
@@ -67,7 +61,7 @@
 						<fieldset class="marg_top">
 							<select name="meetingid" id="meetingid" class="medium">
 								<option value="0">Choose meeting</option>
-								<?php echo $options; ?>
+								<?php echo $moptions; ?>
 							</select>
 						</fieldset>
 						<fieldset class="marg_top">
@@ -86,7 +80,24 @@
 				</div>
 				<div class="small-4 columns">
 					<h3>Add shoot</h3>
-					<p><em>Need to add selects for meetings and events</em></p>
+					<form class="custom" method="get" id="addshoot" name="addshoot" action="add_shoot.php">
+						<fieldset class="marg_top">
+							<select name="meetingid2" id="meetingid2" class="medium" onChange="getEvents(this.value);">
+								<option value="">Select Meeting</option>
+								<?php foreach($meetresult as $meeting) {
+?>
+<option value="<?php echo $meeting["meetingID"]; ?>"><?php echo $meeting["meetingname"]; ?></option>
+<?php
+} ?>
+							</select>
+							
+							<select class="testselect"></select>
+					</form>				
+					
+					
+							<select id="kerrydiv" class="medium">
+								<option value="">Select Event</option>
+							</select>	
 					<p><a href="add_shoot.php" title="Add shoot" class="button">Add shoot</a></p>
 				</div>
 				<div class="small-8 columns">
@@ -119,8 +130,26 @@
     <script src="../javascript/foundation.tab.js"></script>
     <script src="../javascript/foundation.tooltip.js"></script>-->
 	
+	<script>
+	function getEvents(val) {
+		$.ajax({
+		type: "POST",
+		url: "get_events.php",
+		data:'meetingID='+val,
+		success: function(data){
+			console.log(data);
+			$("#testselect").html(data);
+			}
+		});
+	}
+	</script>
+
 	<script type="text/javascript">
 		$(document).foundation(); 
+		$(document).ready(function() {
+		console.log("doing this");
+			$(".testselect").append("<option>Test option</option>");
+		});
 	</script>
 </body>
 </html>
